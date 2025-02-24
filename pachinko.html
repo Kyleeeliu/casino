@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyle's Kasino - Pachinko</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pachinko.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">← Back to Games</div>
+        <h1>Kyle's Kasino - Pachinko</h1>
+        
+        <div class="balance-container">
+            <h2>Your Balance: $<span id="balance">1000</span></h2>
+        </div>
+
+        <div class="pachinko-container">
+            <div class="pachinko-board">
+                <div class="ball-launcher-top">
+                    <div class="power-meter">
+                        <div class="power-bar"></div>
+                    </div>
+                    <button id="launch-button">Launch Ball ($25)</button>
+                </div>
+                <div class="barrier barrier-left"></div>
+                <div class="barrier barrier-right"></div>
+                <div class="pins-container"></div>
+                <div class="collectors">
+                    <div class="collector" data-multiplier="0">×0</div>
+                    <div class="collector" data-multiplier="2">×2</div>
+                    <div class="collector" data-multiplier="0">×0</div>
+                    <div class="collector" data-multiplier="3">×3</div>
+                    <div class="collector" data-multiplier="0">×0</div>
+                    <div class="collector" data-multiplier="5">×5</div>
+                    <div class="collector" data-multiplier="0">×0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="pachinko.js"></script>
+</body>
+</html> 

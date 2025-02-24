@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyle's Kasino - Big Six Wheel</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="wheel.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">← Back to Games</div>
+        <h1>Kyle's Kasino - Big Six Wheel</h1>
+        
+        <div class="balance-container">
+            <h2>Your Balance: $<span id="balance">1000</span></h2>
+        </div>
+
+        <div class="wheel-container">
+            <div class="wheel-section">
+                <div class="wheel">
+                    <div class="wheel-outer">
+                        <div class="wheel-center"></div>
+                    </div>
+                </div>
+                <button id="spin-button">Spin ($10)</button>
+            </div>
+            <div class="betting-section">
+                <h3>Place Your Bets</h3>
+                <div class="bet-options">
+                    <div class="bet-option" data-multiplier="40">
+                        <span class="symbol">🎯</span>
+                        <span class="multiplier">×40</span>
+                        <button class="bet-button">Bet</button>
+                    </div>
+                    <div class="bet-option" data-multiplier="20">
+                        <span class="symbol">💎</span>
+                        <span class="multiplier">×20</span>
+                        <button class="bet-button">Bet</button>
+                    </div>
+                    <div class="bet-option" data-multiplier="10">
+                        <span class="symbol">🌟</span>
+                        <span class="multiplier">×10</span>
+                        <button class="bet-button">Bet</button>
+                    </div>
+                    <div class="bet-option" data-multiplier="5">
+                        <span class="symbol">🎲</span>
+                        <span class="multiplier">×5</span>
+                        <button class="bet-button">Bet</button>
+                    </div>
+                    <div class="bet-option" data-multiplier="2">
+                        <span class="symbol">🎰</span>
+                        <span class="multiplier">×2</span>
+                        <button class="bet-button">Bet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="wheel.js"></script>
+</body>
+</html> 

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyle's Kasino - Uno</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="uno.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">← Back to Games</div>
+        <h1>Kyle's Kasino - Uno</h1>
+
+        <button id="uno-button" class="hidden">UNO!</button>
+        <div class="uno-table">
+            <div class="opponent-hand">
+                <div class="card-count">Cards: <span id="opponent-count">7</span></div>
+                <div id="opponent-cards" class="cards"></div>
+            </div>
+
+            <div class="middle-section">
+                <div id="deck" class="deck">
+                    <div class="card back"></div>
+                </div>
+                <div id="discard-pile" class="discard-pile"></div>
+            </div>
+
+            <div class="player-section">
+                <div id="player-cards" class="cards"></div>
+            </div>
+        </div>
+    </div>
+    <script src="uno.js"></script>
+</body>
+</html> 

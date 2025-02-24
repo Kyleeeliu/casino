@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyle's Kasino</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="start-screen" class="start-screen">
+        <div class="casino-sign">
+            <div class="neon-text">
+                <span class="flicker-slow">K</span>yle's 
+                <span class="flicker-fast">K</span>asino
+            </div>
+            <div class="sub-text">Where Winners Play</div>
+        </div>
+        <div class="game-selection">
+            <div class="select-title">Select Your Game</div>
+            <div class="game-options">
+                <div class="game-option" data-game="slots">
+                    <img src="https://img.icons8.com/color/96/000000/slot-machine.png"/>
+                    <span>Slots</span>
+                </div>
+                <div class="game-option coming-soon">
+                    <img src="https://img.icons8.com/color/96/000000/roulette.png"/>
+                    <span>Big Six Wheel</span>
+                    <div class="coming-soon-tag">Coming Soon</div>
+                </div>
+                <div class="game-option coming-soon">
+                    <img src="https://img.icons8.com/color/96/000000/pinball.png"/>
+                    <span>Pachinko</span>
+                    <div class="coming-soon-tag">Coming Soon</div>
+                </div>
+                <div class="game-option coming-soon">
+                    <img src="https://img.icons8.com/color/96/000000/cards.png"/>
+                    <span>Blackjack</span>
+                    <div class="coming-soon-tag">Coming Soon</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="child-mode-section">
+        <div class="child-mode-divider">
+            <span>Child Series</span>
+        </div>
+        <div class="game-options child-games">
+            <div class="game-option" data-game="uno">
+                <img src="https://img.icons8.com/color/96/000000/cards.png"/>
+                <span>Uno</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="casino-container" class="container hidden">
+        <h1>Kyle's Kasino - Slots</h1>
+        
+        <div class="balance-container">
+            <h2>Your Balance: $<span id="balance">1000</span></h2>
+        </div>
+
+        <div class="games-container">
+            <div class="game-section" id="slots">
+                <h2>Slot Machine</h2>
+                <div class="slot-machine">
+                    <div class="machine-frame">
+                        <div class="machine-top">
+                            <div class="light light-1"></div>
+                            <div class="light light-2"></div>
+                            <div class="light light-3"></div>
+                        </div>
+                        <div class="reels-container">
+                            <div class="slot" id="slot1">7</div>
+                            <div class="slot" id="slot2">7</div>
+                            <div class="slot" id="slot3">7</div>
+                        </div>
+                        <div class="machine-bottom">
+                            <button id="spin-button">Spin ($50)</button>
+                            <div class="slot-lever">
+                                <div class="lever-handle"></div>
+                                <div class="lever-base"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="win-notification">
+                        <div class="win-content">
+                            <div class="win-title">YOU WON!</div>
+                            <div class="win-amount">$<span>0</span></div>
+                            <div class="win-coins"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="back-button">← Back to Games</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,259 @@
+.pachinko-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pachinko-board {
+    background: linear-gradient(145deg, #444, #222);
+    border: 15px solid #8b4513;
+    border-image: linear-gradient(45deg, #8b4513, #654321, #8b4513) 1;
+    border-radius: 20px;
+    padding: 20px;
+    width: 600px;
+    height: 800px;
+    position: relative;
+    box-shadow: 
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(255, 0, 0, 0.3);
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 0, 0, 0.1) 0%, transparent 60%),
+        linear-gradient(145deg, #444, #222);
+}
+
+.ball-launcher-top {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 100px;
+    background: linear-gradient(90deg, #4a4a4a, #333333, #4a4a4a);
+    border-radius: 10px;
+    border: 2px solid #666;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 0.5),
+        0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.power-meter {
+    width: 20px;
+    height: 50px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.power-bar {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(to top, #ff4444, #ffff44);
+    transition: height 0.1s linear;
+}
+
+.pins-container {
+    position: absolute;
+    top: 120px;
+    left: 70px;
+    right: 70px;
+    bottom: 100px;
+    overflow: hidden;
+}
+
+.pin {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(145deg, #ffd700, #ffed4a);
+    border-radius: 50%;
+    box-shadow: 
+        inset -1px -1px 2px rgba(0, 0, 0, 0.3),
+        0 0 5px rgba(255, 215, 0, 0.5);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.pin.hit {
+    transform: scale(1.3);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    background: #fff;
+}
+
+.ball {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: #ff4444;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.collectors {
+    position: absolute;
+    bottom: 20px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.collector {
+    flex: 1;
+    min-width: 50px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(145deg, #2c3e50, #1a1a1a);
+    border: 2px solid #ff4444;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff4444;
+    font-size: 1.2em;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 0.5),
+        0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+.collector.highlight {
+    background: #ff4444;
+    color: #333;
+    animation: pulse 0.5s ease-in-out infinite;
+    box-shadow: 
+        0 0 20px rgba(255, 0, 0, 0.5),
+        0 0 40px rgba(255, 0, 0, 0.3);
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+#launch-button {
+    white-space: nowrap;
+}
+
+@keyframes pinGlow {
+    0%, 100% { box-shadow: 0 0 5px rgba(255, 215, 0, 0.5); }
+    50% { box-shadow: 0 0 8px rgba(255, 215, 0, 0.7); }
+}
+
+.pin {
+    animation: pinGlow 2s infinite;
+    animation-delay: calc(var(--pin-delay) * 0.1s);
+}
+
+/* Add barrier styles */
+.barrier {
+    position: absolute;
+    width: 20px;
+    top: 100px;
+    bottom: 100px;
+    background: linear-gradient(90deg, #4a4a4a, #333333, #4a4a4a);
+    border: 2px solid #888;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    background-image: 
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 20px,
+            rgba(255, 255, 255, 0.05) 20px,
+            rgba(255, 255, 255, 0.05) 40px
+        );
+}
+
+.barrier-left {
+    left: 40px;
+    border-radius: 0 10px 10px 0;
+}
+
+.barrier-right {
+    right: 40px;
+    border-radius: 10px 0 0 10px;
+}
+
+/* Add neon glow effect to the board */
+.pachinko-board::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #ff0000, #ff4444);
+    z-index: -1;
+    border-radius: 25px;
+    opacity: 0.2;
+    filter: blur(10px);
+}
+
+/* Debug mode styles */
+.debug-mode {
+    background: #111 !important;
+}
+
+.debug-circle {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(255, 0, 0, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.ball-debug {
+    border-color: rgba(0, 255, 0, 0.5);
+    width: 15px;
+    height: 15px;
+}
+
+.debug-trail {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(0, 255, 0, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+}
+
+.debug-vector {
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    background: rgba(255, 255, 0, 0.5);
+    transform-origin: left center;
+    pointer-events: none;
+    z-index: 2;
+    transform: translate(0, -50%);
+}
+
+.debug-mode .pin {
+    background: #444;
+    box-shadow: none;
+}
+
+.debug-mode .ball {
+    background: rgba(0, 255, 0, 0.5);
+}
+
+.debug-circle.ball-debug {
+    border-color: rgba(0, 255, 0, 0.5);
+    width: 15px;
+    height: 15px;
+} 
