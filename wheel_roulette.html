@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyle's Kasino - Chambers</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="wheel_roulette.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lobster&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="back-button">← Back to Games</div>
+        <h1>Kyle's Kasino - Chambers</h1>
+        
+        <div class="balance-container">
+            <h2>Your Balance: $<span id="balance">1000</span></h2>
+        </div>
+
+        <div class="wheel-roulette">
+            <div class="cylinder">
+                <div class="chamber-display">Chamber: <span id="current-chamber">?</span>/6</div>
+                <div class="cylinder-visual">
+                    <div class="chamber"></div>
+                    <div class="chamber"></div>
+                    <div class="chamber"></div>
+                    <div class="chamber"></div>
+                    <div class="chamber"></div>
+                    <div class="chamber"></div>
+                </div>
+            </div>
+            <div class="controls">
+                <button id="spin-button">Spin ($50)</button>
+                <button id="new-game">New Game</button>
+            </div>
+            <div class="stats">
+                <div>Spins: <span id="spin-count">0</span></div>
+                <div>Wins: <span id="win-count">0</span></div>
+            </div>
+            <div class="win-notification">
+                <div class="win-content">
+                    <div class="win-title">YOU WON!</div>
+                    <div class="win-amount">$0</div>
+                    <div class="win-coins"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="wheel_roulette.js"></script>
+</body>
+</html> 

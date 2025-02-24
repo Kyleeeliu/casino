@@ -314,12 +314,25 @@ button:hover:not(:disabled) {
     font-family: 'Lobster', cursive;
     font-size: 5em;
     color: #fff;
-    text-shadow: 0 0 5px #fff,
-                 0 0 10px #fff,
-                 0 0 20px #ff0000,
-                 0 0 40px #ff0000,
-                 0 0 80px #ff0000;
-    animation: neon-flicker 3s infinite;
+    text-shadow: 
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 30px #ff1177,
+        0 0 40px #ff1177,
+        0 0 50px #ff1177;
+    display: inline-block;
+}
+
+.neon-text .flicker-slow,
+.neon-text .flicker-fast {
+    color: #fff;
+    text-shadow: 
+        0 0 10px #fff,
+        0 0 20px #fff,
+        0 0 30px #ff1177,
+        0 0 40px #ff1177,
+        0 0 50px #ff1177;
+    display: inline-block;
 }
 
 .flicker-slow {

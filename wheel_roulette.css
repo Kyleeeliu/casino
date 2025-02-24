@@ -1,0 +1,305 @@
+.wheel-roulette {
+    background: linear-gradient(145deg, #2c3e50, #1a1a1a);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5),
+                inset 0 0 50px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 215, 0, 0.1);
+}
+
+.cylinder {
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 20px;
+    position: relative;
+    perspective: 1000px;
+    padding: 30px;
+    background: linear-gradient(145deg, #444, #222);
+    border-radius: 50%;
+    box-shadow: 
+        inset 0 0 20px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 0, 0, 0.3);
+    border: 8px solid #222;
+}
+
+.cylinder-visual {
+    width: 100%;
+    height: 100%;
+    background: #2a2a2a;
+    border-radius: 50%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 3s cubic-bezier(0.4, 2.0, 0.2, 1);
+    box-shadow: 
+        inset 0 0 50px rgba(0, 0, 0, 0.5),
+        0 0 0 2px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+}
+
+.cylinder-visual::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(
+        from 0deg,
+        #2a2a2a 0deg,
+        #2a2a2a 50deg,
+        #1a1a1a 60deg,
+        #1a1a1a 110deg,
+        #2a2a2a 120deg,
+        #2a2a2a 170deg,
+        #1a1a1a 180deg,
+        #1a1a1a 230deg,
+        #2a2a2a 240deg,
+        #2a2a2a 290deg,
+        #1a1a1a 300deg,
+        #1a1a1a 350deg,
+        #2a2a2a 360deg
+    );
+    border-radius: 50%;
+}
+
+.cylinder-visual::after {
+    content: '';
+    position: absolute;
+    width: 30%;
+    height: 30%;
+    background: #1a1a1a;
+    border-radius: 50%;
+    top: 35%;
+    left: 35%;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 0.8),
+        0 0 5px rgba(255, 255, 255, 0.1);
+}
+
+.cylinder-visual .chamber {
+    position: absolute;
+    width: 15%;
+    height: 15%;
+    background: #000;
+    border-radius: 50%;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 1),
+        0 0 5px rgba(255, 255, 255, 0.1);
+    transform-origin: center;
+    transition: all 0.3s ease;
+}
+
+.cylinder-visual .chamber:nth-child(1) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(-80px) rotate(0deg);
+}
+
+.cylinder-visual .chamber:nth-child(2) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(60deg) translateY(-80px) rotate(-60deg);
+}
+
+.cylinder-visual .chamber:nth-child(3) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(120deg) translateY(-80px) rotate(-120deg);
+}
+
+.cylinder-visual .chamber:nth-child(4) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(180deg) translateY(-80px) rotate(-180deg);
+}
+
+.cylinder-visual .chamber:nth-child(5) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(240deg) translateY(-80px) rotate(-240deg);
+}
+
+.cylinder-visual .chamber:nth-child(6) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(300deg) translateY(-80px) rotate(-300deg);
+}
+
+.cylinder-visual.spinning {
+    animation: spin 3s cubic-bezier(0.5, 0.1, 0.15, 1.0);
+}
+
+@keyframes spin {
+    0% { 
+        transform: rotateZ(0deg);
+    }
+    40% {
+        transform: rotateZ(1800deg);
+    }
+    80% {
+        transform: rotateZ(3240deg);
+    }
+    90% {
+        transform: rotateZ(3300deg);
+    }
+    100% { 
+        transform: rotateZ(3330deg);
+    }
+}
+
+.cylinder-visual.spinning .chamber {
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 1),
+        0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+.chamber-display {
+    font-size: 1.5em;
+    color: #ffd700;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 2px;
+}
+
+.controls {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin: 40px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.controls button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 150px;
+    font-family: 'Playfair Display', serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+#spin-button {
+    background: linear-gradient(145deg, #ffd700, #b8860b);
+    color: #fff;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#new-game {
+    background: linear-gradient(145deg, #4a90e2, #357abd);
+    color: white;
+    border: 2px solid rgba(74, 144, 226, 0.3);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.controls button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3),
+                0 0 20px rgba(255, 215, 0, 0.2);
+}
+
+.stats {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    color: #ffd700;
+    font-size: 1.2em;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.win-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 10px;
+    display: none;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    transform-origin: center;
+}
+
+.win-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    box-shadow: none;
+    width: 100%;
+    height: 100%;
+}
+
+.win-title {
+    font-size: 3em;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
+}
+
+.win-amount {
+    font-size: 2.5em;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.win-coins {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.win-notification.show {
+    display: block;
+    animation: popIn 0.5s cubic-bezier(0.26, 1.29, 0.7, 1.18) forwards;
+}
+
+@keyframes popIn {
+    from { 
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    to { 
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes coinFall {
+    0% { transform: translateY(-100%) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
+    50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.4); }
+}
+
+.coin {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: #ffd700;
+    border-radius: 50%;
+    animation: coinFall 2s linear forwards;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+} 

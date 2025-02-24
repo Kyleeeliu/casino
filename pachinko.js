@@ -1,13 +1,13 @@
 let balance = 1000;
 const BALL_COST = 25;
-const GRAVITY = 0.25;
-const BOUNCE = 0.65;
-const FRICTION = 0.98;
+const GRAVITY = 0.3;
+const BOUNCE = 0.7;
+const FRICTION = 0.99;
 let debugMode = false;
 
 class Ball {
     constructor(x, y, power) {
-        this.radius = 6; // Smaller radius for more precise collisions
+        this.radius = 4; // Even smaller radius for more precise collisions
         // x and y represent the center of the ball
         this.x = x;
         this.y = y;
@@ -50,8 +50,8 @@ class Ball {
             if (this.debugTrail.length > 50) this.debugTrail.shift();
             
             this.updateDebugPosition();
-            
             this.drawDebugVector();
+            this.updateDebugCoordinates();
         }
 
         this.vy += GRAVITY;
@@ -79,9 +79,8 @@ class Ball {
     checkPinCollisions() {
         this.pins.forEach(pin => {
             // Get pin center coordinates
-            const pinRect = pin.getBoundingClientRect();
-            const pinX = pinRect.left + pinRect.width / 2;
-            const pinY = pinRect.top + pinRect.height / 2;
+            const pinX = parseInt(pin.style.left) + pin.offsetWidth / 2;
+            const pinY = parseInt(pin.style.top) + pin.offsetHeight / 2;
             const pinRadius = 3; // Smaller pin hitbox
             
             const dx = this.x - pinX;
@@ -92,11 +91,11 @@ class Ball {
                 const angle = Math.atan2(dy, dx);
                 
                 const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-                const newVx = Math.cos(angle) * speed * BOUNCE;
-                const newVy = Math.sin(angle) * speed * BOUNCE;
+                const newVx = Math.cos(angle) * speed * BOUNCE + (Math.random() - 0.5) * 2;
+                const newVy = Math.sin(angle) * speed * BOUNCE + (Math.random() - 0.5) * 2;
                 
-                this.vx = newVx + (Math.random() - 0.5) * 1;
-                this.vy = newVy + (Math.random() - 0.5) * 1;
+                this.vx = newVx;
+                this.vy = newVy;
                 
                 const overlap = (this.radius + pinRadius) - distance;
                 this.x += Math.cos(angle) * overlap;
@@ -142,17 +141,16 @@ class Ball {
     }
 
     checkBarrierCollisions() {
-        // Left barrier
-        if (this.x - this.radius < 70) {
-            this.vx *= -BOUNCE;
-            this.x = 70 + this.radius;
-            this.vx += Math.random() * 0.5;
+        const leftBarrier = 70;  // Match the pins-container left offset
+        const rightBarrier = 510; // Match the pins-container right offset
+        
+        if (this.x - this.radius < leftBarrier) {
+            this.x = leftBarrier + this.radius;
+            this.vx = Math.abs(this.vx) * BOUNCE + (Math.random() * 2);  // Add randomness
         }
-        // Right barrier
-        if (this.x + this.radius > 510) {
-            this.vx *= -BOUNCE;
-            this.x = 510 - this.radius;
-            this.vx -= Math.random() * 0.5;
+        if (this.x + this.radius > rightBarrier) {
+            this.x = rightBarrier - this.radius;
+            this.vx = -Math.abs(this.vx) * BOUNCE - (Math.random() * 2);  // Add randomness
         }
     }
 
@@ -183,26 +181,36 @@ class Ball {
             setTimeout(() => trail.remove(), 1000);
         });
     }
+
+    updateDebugCoordinates() {
+        let coordsDisplay = document.getElementById('debug-coords');
+        if (!coordsDisplay) {
+            coordsDisplay = document.createElement('div');
+            coordsDisplay.id = 'debug-coords';
+            document.querySelector('.pins-container').appendChild(coordsDisplay);
+        }
+        coordsDisplay.textContent = `x: ${Math.round(this.x)}, y: ${Math.round(this.y)}`;
+    }
 }
 
 function createPins() {
     const container = document.querySelector('.pins-container');
-    const rows = 18;  // More rows
+    const rows = 10;
     const pinsPerRow = 12;
-    const spacing = 32;  // Tighter spacing
-
+    const spacing = 40;  // Adjust spacing
+    
     // Calculate total width of pins container (right - left)
     const containerWidth = 520 - 70 - 70; // Total width minus barrier offsets
     // Calculate starting X position to center the pins
     const startX = (containerWidth - (pinsPerRow - 1) * spacing) / 2;
-
+    
     for (let row = 0; row < rows; row++) {
         const offset = row % 2 ? spacing / 2 : 0;
-        for (let pin = 0; pin < pinsPerRow; pin++) {
+        for (let pin = 0; pin < pinsPerRow - (row % 2); pin++) {
             const pinElement = document.createElement('div');
             pinElement.className = 'pin';
             pinElement.style.left = `${startX + offset + pin * spacing}px`;
-            pinElement.style.top = `${row * spacing}px`;
+            pinElement.style.top = `${row * spacing + 50}px`;  // Add some top padding
             pinElement.style.setProperty('--pin-delay', Math.random() * 10);
             container.appendChild(pinElement);
         }
@@ -256,7 +264,7 @@ function launchBall(power) {
         balance -= BALL_COST;
         updateBalance();
 
-        const ball = new Ball(300, 80, power);
+        const ball = new Ball(200, 0, power);
         const board = document.querySelector('.pachinko-board');
         board.appendChild(ball.element);
 
@@ -293,10 +301,11 @@ document.addEventListener('keydown', (e) => {
         document.querySelector('.pachinko-board').classList.toggle('debug-mode');
         
         // Show/hide debug elements
-        const debugElements = document.querySelectorAll('.debug-circle');
+        const debugElements = document.querySelectorAll('.debug-circle, .debug-grid');
         debugElements.forEach(el => el.remove());
         
         if (debugMode) {
+            createDebugGrid();
             // Show collision circles around pins
             document.querySelectorAll('.pin').forEach(pin => {
                 const circle = document.createElement('div');
@@ -307,4 +316,45 @@ document.addEventListener('keydown', (e) => {
             });
         }
     }
-}); 
+});
+
+// Add debug grid creation
+function createDebugGrid() {
+    const container = document.querySelector('.pins-container');
+    const grid = document.createElement('div');
+    grid.className = 'debug-grid';
+    
+    // Create vertical lines every 50px
+    for (let x = 0; x <= container.offsetWidth; x += 50) {
+        const line = document.createElement('div');
+        line.className = 'debug-grid-line vertical';
+        line.style.left = `${x}px`;
+        
+        const label = document.createElement('div');
+        label.className = 'debug-grid-label';
+        label.style.left = `${x}px`;
+        label.style.top = '0';
+        label.textContent = x;
+        
+        grid.appendChild(line);
+        grid.appendChild(label);
+    }
+    
+    // Create horizontal lines every 50px
+    for (let y = 0; y <= container.offsetHeight; y += 50) {
+        const line = document.createElement('div');
+        line.className = 'debug-grid-line horizontal';
+        line.style.top = `${y}px`;
+        
+        const label = document.createElement('div');
+        label.className = 'debug-grid-label';
+        label.style.left = '0';
+        label.style.top = `${y}px`;
+        label.textContent = y;
+        
+        grid.appendChild(line);
+        grid.appendChild(label);
+    }
+    
+    container.appendChild(grid);
+} 

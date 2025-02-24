@@ -244,11 +244,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const game = option.dataset.game;
             if (game === 'slots') {
                 startScreen.classList.add('hidden');
+                document.querySelector('.child-mode-section').classList.add('hidden');
                 casinoContainer.classList.remove('hidden');
+            } else if (game === 'wheel_roulette') {
+                window.location.href = 'wheel_roulette.html';
             } else if (game === 'uno') {
                 window.location.href = 'uno.html';
-            } else if (game === 'pachinko') {
-                window.location.href = 'pachinko.html';
             }
         });
     });
@@ -256,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle back button
     backButton.addEventListener('click', () => {
         casinoContainer.classList.add('hidden');
+        document.querySelector('.child-mode-section').classList.remove('hidden');
         startScreen.classList.remove('hidden');
     });
 });
