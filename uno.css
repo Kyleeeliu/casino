@@ -148,18 +148,51 @@
 
 @keyframes moveToDiscard {
     0% {
-        transform: translate(var(--start-x), var(--start-y)) rotate(0deg);
+        transform: translate(var(--start-x), var(--start-y));
         z-index: 100;
+        opacity: 1;
+    }
+    50% {
+        transform: translate(
+            calc(var(--start-x) + (var(--end-x) * 0.5)), 
+            calc(var(--start-y) + (var(--end-y) * 0.5))
+        ) rotate(calc(var(--random-rotate) * 0.5));
+        z-index: 100;
+        opacity: 1;
     }
     100% {
-        transform: translate(0, 0) rotate(var(--random-rotate));
+        transform: translate(var(--end-x), var(--end-y)) rotate(var(--random-rotate));
         z-index: 100;
+        opacity: 1;
     }
 }
 
 .card.moving-to-discard {
     position: fixed;
-    animation: moveToDiscard 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: moveToDiscard 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+    pointer-events: none;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    will-change: transform;
+}
+
+.card.moving-to-discard::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    border-radius: inherit;
+    filter: blur(8px);
+    opacity: 0.3;
+    z-index: -1;
+    animation: fadeTrail 0.8s ease-out forwards;
+}
+
+@keyframes fadeTrail {
+    0% { opacity: 0.3; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.1); }
 }
 
 .card.played {
@@ -238,12 +271,23 @@
     animation: winPulse 1s infinite;
 }
 
+.win-title.special {
+    font-size: 2.5em;
+    color: #4a90e2;
+    text-shadow: 0 0 10px rgba(74, 144, 226, 0.5),
+                  0 0 20px rgba(74, 144, 226, 0.3);
+}
+
 .win-message {
     font-family: 'Playfair Display', serif;
     font-size: 2em;
     color: #fff;
     margin-bottom: 30px;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.win-notification .win-content {
+    min-width: 300px;
 }
 
 .hidden {

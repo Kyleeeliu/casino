@@ -7,7 +7,7 @@ let debugMode = false;
 
 class Ball {
     constructor(x, y, power) {
-        this.radius = 7.5; // Ball radius must be set first
+        this.radius = 6; // Smaller radius for more precise collisions
         // x and y represent the center of the ball
         this.x = x;
         this.y = y;
@@ -79,14 +79,16 @@ class Ball {
     checkPinCollisions() {
         this.pins.forEach(pin => {
             // Get pin center coordinates
-            const pinX = parseInt(pin.style.left) + 4;
-            const pinY = parseInt(pin.style.top) + 4;
+            const pinRect = pin.getBoundingClientRect();
+            const pinX = pinRect.left + pinRect.width / 2;
+            const pinY = pinRect.top + pinRect.height / 2;
+            const pinRadius = 3; // Smaller pin hitbox
             
             const dx = this.x - pinX;
             const dy = this.y - pinY;
             const distance = Math.sqrt(dx * dx + dy * dy);
             
-            if (distance < (this.radius + 4)) {
+            if (distance < (this.radius + pinRadius)) {
                 const angle = Math.atan2(dy, dx);
                 
                 const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
@@ -96,7 +98,7 @@ class Ball {
                 this.vx = newVx + (Math.random() - 0.5) * 1;
                 this.vy = newVy + (Math.random() - 0.5) * 1;
                 
-                const overlap = (this.radius + 4) - distance;
+                const overlap = (this.radius + pinRadius) - distance;
                 this.x += Math.cos(angle) * overlap;
                 this.y += Math.sin(angle) * overlap;
                 

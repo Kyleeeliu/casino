@@ -54,20 +54,56 @@ class UnoGame {
         return card.color === topCard.color || card.value === topCard.value;
     }
 
+    handleSpecialCard(card) {
+        let message = '';
+        switch (card.value) {
+            case 'Skip':
+                if (this.currentPlayer === 'player') {
+                    message = 'Opponent turn skipped! Play again!';
+                    this.currentPlayer = 'player';  // Keep it player's turn
+                } else {
+                    message = 'Your turn was skipped!';
+                    this.currentPlayer = 'opponent';  // Keep it opponent's turn
+                }
+                break;
+            case 'Reverse':
+                this.direction *= -1;
+                message = 'Direction reversed!';
+                break;
+            case '+2':
+                const nextPlayer = this.currentPlayer === 'player' ? 'opponent' : 'player';
+                this.drawCard(nextPlayer);
+                this.drawCard(nextPlayer);
+                message = this.currentPlayer === 'player' ? 'Opponent draws 2 cards!' : 'You draw 2 cards!';
+                break;
+        }
+        if (message) {
+            showNotification(message, true, 'special');
+        }
+        // Return true if we should skip changing turns in playCard
+        return card.value === 'Skip' || card.value === '+2';
+    }
+
     playCard(card, player) {
         if (player === 'player') {
             const index = this.playerHand.findIndex(c => c.color === card.color && c.value === card.value);
             if (index !== -1) {
                 this.playerHand.splice(index, 1);
                 this.discardPile.push(card);
-                this.handleSpecialCard(card);
+                const skipTurn = this.handleSpecialCard(card);
+                if (!skipTurn) {
+                    this.currentPlayer = 'opponent';
+                }
             }
         } else {
             const index = this.opponentHand.findIndex(c => c.color === card.color && c.value === card.value);
             if (index !== -1) {
                 this.opponentHand.splice(index, 1);
                 this.discardPile.push(card);
-                this.handleSpecialCard(card);
+                const skipTurn = this.handleSpecialCard(card);
+                if (!skipTurn) {
+                    this.currentPlayer = 'player';
+                }
             }
         }
     }
@@ -87,22 +123,6 @@ class UnoGame {
             this.opponentHand.push(card);
         }
         return card;
-    }
-
-    handleSpecialCard(card) {
-        switch (card.value) {
-            case 'Skip':
-                // Skip next player's turn
-                break;
-            case 'Reverse':
-                this.direction *= -1;
-                break;
-            case '+2':
-                const nextPlayer = this.currentPlayer === 'player' ? 'opponent' : 'player';
-                this.drawCard(nextPlayer);
-                this.drawCard(nextPlayer);
-                break;
-        }
     }
 
     makeOpponentMove() {
@@ -130,12 +150,18 @@ class UnoGame {
 let game = new UnoGame();
 let unoButtonPressed = false;
 
-function showNotification(message, isWin = true) {
+function showNotification(message, isWin = true, type = 'game') {
     const notification = document.createElement('div');
     notification.className = 'win-notification';
+    
+    let title = isWin ? 'YOU WIN!' : 'Game Over';
+    if (type === 'special') {
+        title = 'Special Card!';
+    }
+    
     notification.innerHTML = `
         <div class="win-content">
-            <div class="win-title">${isWin ? 'YOU WIN!' : 'Game Over'}</div>
+            <div class="win-title ${type}">${title}</div>
             <div class="win-message">${message}</div>
         </div>
     `;
@@ -146,13 +172,23 @@ function showNotification(message, isWin = true) {
         notification.classList.add('show');
     }, 100);
     
-    // Remove on click
-    notification.addEventListener('click', () => {
-        notification.classList.remove('show');
+    // Auto-remove special card notifications after 1.5 seconds
+    if (type === 'special') {
         setTimeout(() => {
-            notification.remove();
-        }, 300);
-    });
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 1500);
+    } else {
+        // Remove on click for game notifications
+        notification.addEventListener('click', () => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        });
+    }
 }
 
 function createCardElement(card, faceUp = true) {
@@ -179,26 +215,34 @@ function createCardElement(card, faceUp = true) {
         cardDiv.addEventListener('click', () => {
             if (game.currentPlayer === 'player' && game.isValidPlay(card)) {
                 cardDiv.classList.add('played');
-               
+                
                 // Get the positions for animation
                 const cardRect = cardDiv.getBoundingClientRect();
                 const discardPile = document.getElementById('discard-pile');
                 const pileRect = discardPile.getBoundingClientRect();
                 
-                // Calculate the distance to move
-                const startX = cardRect.left - pileRect.left;
-                const startY = cardRect.top - pileRect.top;
-                
-                // Create a clone for the animation
+                // Create a clone that matches the exact position and size of the original card
                 const clone = cardDiv.cloneNode(true);
+                clone.style.position = 'fixed';
+                clone.style.width = `${cardRect.width}px`;
+                clone.style.height = `${cardRect.height}px`;
+                clone.style.left = `${cardRect.left}px`;
+                clone.style.top = `${cardRect.top}px`;
+                clone.style.transform = 'none';  // Reset any existing transforms
+                
+                // Calculate the distance to move
+                const startX = 0;  // Start from current position
+                const startY = 0;
+                const endX = pileRect.left - cardRect.left;
+                const endY = pileRect.top - cardRect.top;
+                
                 clone.style.setProperty('--start-x', `${startX}px`);
                 clone.style.setProperty('--start-y', `${startY}px`);
+                clone.style.setProperty('--end-x', `${endX}px`);
+                clone.style.setProperty('--end-y', `${endY}px`);
                 clone.style.setProperty('--random-rotate', `${Math.random() * 20 - 10}deg`);
                 clone.classList.add('moving-to-discard');
                 
-                // Position clone at start position
-                clone.style.left = `${cardRect.left}px`;
-                clone.style.top = `${cardRect.top}px`;
                 document.body.appendChild(clone);
                 
                 // Remove clone after animation

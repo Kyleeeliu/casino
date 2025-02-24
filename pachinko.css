@@ -69,8 +69,8 @@
 
 .pin {
     position: absolute;
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background: linear-gradient(145deg, #ffd700, #ffed4a);
     border-radius: 50%;
     box-shadow: 
@@ -87,8 +87,8 @@
 
 .ball {
     position: absolute;
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     background: #ff4444;
     border-radius: 50%;
     box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
@@ -209,8 +209,8 @@
 
 .debug-circle {
     position: absolute;
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
     border: 1px solid rgba(255, 0, 0, 0.5);
     border-radius: 50%;
     pointer-events: none;
@@ -218,8 +218,8 @@
 
 .ball-debug {
     border-color: rgba(0, 255, 0, 0.5);
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
 }
 
 .debug-trail {
